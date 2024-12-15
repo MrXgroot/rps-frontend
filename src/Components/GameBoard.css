@@ -94,6 +94,13 @@
   .player-avatar {
     width: 60px;
   }
+  .score-card {
+    margin-top: 10px;
+  }
+
+  .selection-container {
+    margin-bottom: 50px;
+  }
   .opponent-stars img {
     width: 20px;
     height: 20px;
@@ -122,6 +129,8 @@
   display: flex;
   gap: 20px;
   max-width: 400px;
+  align-items: center;
+  justify-content: center;
 }
 
 .rock-button {
