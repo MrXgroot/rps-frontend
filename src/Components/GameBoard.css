@@ -1,0 +1,219 @@
+.gameboard-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  background-position: center;
+  background-image: url("../assets/background.png");
+}
+
+.hands-container {
+  width: 100%;
+  display: flex;
+  position: relative;
+  align-items: center;
+}
+.player {
+  align-self: flex-start;
+  max-width: 60%;
+}
+.opponent img {
+  transform: rotate(180deg);
+}
+.animate {
+  animation: rotate 1s ease-in-out infinite;
+}
+.opponent {
+  align-self: flex-end;
+}
+.score-card {
+  position: absolute;
+  top: 0px;
+  display: flex;
+
+  width: 100%;
+  justify-self: flex-start;
+  justify-content: space-between;
+  padding: 5px;
+}
+.player-details,
+.opponent-details {
+  display: flex;
+  align-items: center;
+}
+.opponent-stars,
+.player-stars {
+  display: flex;
+}
+.player-stars img {
+  width: 50px;
+  height: 50px;
+}
+
+.opponent-stars img {
+  width: 50px;
+  height: 50px;
+}
+.player-avatar,
+.opponent-avatar {
+  width: 100px;
+}
+
+@media (max-width: 560px) {
+  .player-stars img {
+    width: 30px;
+    height: 30px;
+  }
+  .player-avatar {
+    width: 80px;
+  }
+  .opponent-stars img {
+    width: 30px;
+    height: 30px;
+  }
+  .opponent-avatar {
+    width: 80px;
+  }
+}
+@media (max-width: 385px) {
+  .player-stars img {
+    width: 20px;
+    height: 20px;
+  }
+  .player-avatar {
+    width: 60px;
+  }
+  .opponent-stars img {
+    width: 20px;
+    height: 20px;
+  }
+  .opponent-avatar {
+    width: 60px;
+  }
+  .rock-button {
+    width: 40px;
+  }
+  .rock-button img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.selection-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  bottom: 10px;
+}
+.buttons-container {
+  display: flex;
+  gap: 20px;
+  max-width: 400px;
+}
+
+.rock-button {
+  width: 25%;
+}
+.paper-button {
+  width: 25%;
+}
+.scissor-button {
+  width: 25%;
+}
+img {
+  width: 100%;
+  height: auto;
+}
+
+.waiting {
+  animation: rotate3d 1s ease alternate infinite;
+}
+
+@keyframes rotate3d {
+  0% {
+    transform: rotateY(0deg);
+  }
+  100% {
+    transform: rotateY(360deg);
+  }
+}
+
+.winner-board-bg {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.677);
+  z-index: 13;
+  display: flex;
+  justify-content: center;
+}
+.winner-board {
+  position: relative;
+  display: flex;
+  width: 80%;
+  justify-content: center;
+  align-items: center;
+  z-index: 14;
+  flex-direction: column;
+}
+.result-display {
+  width: 90%;
+}
+.back-btn,
+.play-again-btn,
+.new-game-btn {
+  width: 150px;
+  margin: 10px;
+}
+.back-btn:active,
+.play-again-btn:active,
+.new-game-btn:active {
+  transform: scale(1.1);
+}
+.buttons-display {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.result-indicator {
+  position: absolute;
+  z-index: 3;
+  animation: pop 1.2s ease;
+}
+@keyframes pop {
+  0% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0%;
+  }
+  40% {
+    transform: scale(1) rotate(4deg);
+  }
+  60% {
+    transform: scale(0.8);
+  }
+  80% {
+    transform: scale(1) rotate(8deg);
+    opacity: 100%;
+  }
+  100% {
+    transform: scale(0) rotate(0deg);
+    opacity: 0%;
+  }
+}
+
+.paper-button:active,
+.scissor-button:active,
+.rock-button:active {
+  transform: scale(0.8);
+}

@@ -1,0 +1,192 @@
+.page-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  height: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+* {
+  user-select: none;
+}
+.page-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.404);
+  filter: blur(8px);
+  z-index: 0;
+}
+
+.connecting-container {
+  position: absolute;
+  display: flex;
+  padding: 20px;
+  z-index: 5;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  left: 0px;
+}
+.connecting-container p {
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  color: rgb(62, 62, 62);
+  font-size: 1.1rem;
+  animation: connect 1s ease-in-out infinite;
+}
+h1 {
+  color: rgba(10, 115, 89, 0.936);
+  font-size: 3rem;
+  animation: glow 1s ease-in-out alternate infinite;
+  text-align: center;
+  font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+}
+.rock-container {
+  width: 60%;
+  height: auto;
+  z-index: 2;
+  align-self: flex-start;
+}
+img {
+  width: 100%;
+  height: 100%;
+}
+.paper-container {
+  animation: rotate 1s ease-in-out infinite;
+  z-index: 2;
+  align-self: flex-end;
+  width: 60%;
+  height: auto;
+}
+.paper-container img {
+  width: 100%;
+  height: 100%;
+  transform: rotate(180deg);
+}
+
+.all-buttons {
+  /* position: absolute; */
+  margin-top: auto;
+  margin-bottom: auto;
+  justify-self: last baseline;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  bottom: 50px;
+  width: 70%;
+  z-index: 8;
+}
+.btn-active {
+  z-index: 2;
+  animation: wiggle 1s ease-in-out infinite;
+}
+.btn-disabled {
+  filter: grayscale(100%);
+}
+.create-btn {
+  animation-delay: -0.5s;
+}
+.computer-btn {
+  animation-delay: -0.4s;
+}
+.create-btn:active {
+  animation: none;
+  transform: scale(1.2);
+}
+.join-btn:active {
+  animation: none;
+  transform: scale(1.2);
+}
+.random-btn:active {
+  animation: none;
+  transform: scale(1.2);
+}
+.computer-btn:active {
+  animation: none;
+  transform: scale(1.2);
+}
+
+@keyframes rotate {
+  0%,
+  100% {
+    transform: rotate(2deg);
+  }
+  50% {
+    transform: rotate(-2deg);
+  }
+}
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: scaleY(1.1) scaleX(1);
+  }
+  50% {
+    transform: scaleY(1) scaleX(1.1);
+  }
+}
+@keyframes glow {
+  0% {
+    transform: rotateZ(6deg);
+  }
+
+  100% {
+    transform: rotateZ(5deg);
+  }
+}
+
+@keyframes connect {
+  0% {
+    color: rgba(255, 255, 255, 0.8);
+    transform: scale(1);
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  }
+  50% {
+    color: rgb(255, 255, 255);
+    transform: scale(1.05);
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+  }
+  100% {
+    color: rgba(255, 255, 255, 0.8);
+    transform: scale(1);
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+  }
+}
+@media (max-width: 500px) {
+  .rock-container {
+    top: 0px;
+  }
+  .connecting-container p {
+    font-size: 0.8rem;
+  }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 5px solid rgba(0, 0, 255, 0.2);
+  border-top: 5px solid rgb(255, 255, 255);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Keyframes for rotation */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
