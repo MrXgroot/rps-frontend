@@ -1,6 +1,6 @@
 import "./StartPage.css";
 import paper from "../assets/paper.png";
-import randomButton from "../assets/randomButton.png";
+import randomButton from "../assets/RandomButton.png";
 import joinButton from "../assets/joinButton.png";
 import createButton from "../assets/createButton.png";
 import computerButton from "../assets/computerButton.png";
