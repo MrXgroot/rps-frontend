@@ -18,6 +18,7 @@ import loseIndicator from "../assets/loseIndicator.png";
 import tieIndicator from "../assets/tieIndicator.png";
 import { useState, useRef, useEffect } from "react";
 import RpsEngine from "../../engine/RpsEngine";
+import { preloadImages } from "../../utils/util.js";
 
 function GameBoard({ socket, playOffline }) {
   const assets = {
@@ -30,15 +31,36 @@ function GameBoard({ socket, playOffline }) {
     player: victoryImage,
     opponent: defeatImage,
   };
-  // const [playerChoice, setPlayerChoice] = useState(null);
+
   const [result, setResult] = useState({
     player1: "rock",
     player2: "rock",
     playerScore: 3,
     opponentScore: 3,
   });
+  const imageSources = [
+    rock,
+    paper,
+    scissor,
+    playerAvatar,
+    opponentAvatar,
+    stars,
+    rockButton,
+    paperButton,
+    scissorButton,
+    victoryImage,
+    defeatImage,
+    playAgainBtn,
+    newGameBtn,
+    backBtn,
+    winIndicator,
+    loseIndicator,
+    tieIndicator,
+  ];
+
   const [isAnimating, setIsAnimating] = useState(false);
   const [showResult, setShowResult] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [showWinnerDisplay, setShowWinnerDisplay] = useState(false);
 
   const rps = useRef(new RpsEngine());
@@ -72,6 +94,15 @@ function GameBoard({ socket, playOffline }) {
     }
   };
   useEffect(() => {
+    preloadImages(imageSources)
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        // console.error("Failed to preload images:", error);
+        setIsLoading(false);
+      });
+
     socket.on("validateSuccessfull", (response) => {
       setTimeout(() => {
         setResult(response);
@@ -85,6 +116,7 @@ function GameBoard({ socket, playOffline }) {
       }, 1000);
     });
     socket.on("disconnected", () => reloadPage());
+
     socket.on("resetGame", () => {
       setResult({
         player1: "rock",
@@ -127,87 +159,104 @@ function GameBoard({ socket, playOffline }) {
   };
 
   return (
-    <div className="gameboard-container">
-      <div className="score-card">
-        <div className="player-details">
-          <div className="player-avatar">
-            <img src={playerAvatar} alt="" />
+    <>
+      {isLoading ? (
+        <div className="loading-screen-container">
+          <div className="outer-spinner">
+            <div className="inner-spinner"></div>
           </div>
-          <div className="player-stars">{displayStars(playerStars)}</div>
+          <p className="loading-text">Loading Assets...</p>
         </div>
-
-        <div className="opponent-details">
-          <div className="opponent-stars">{displayStars(opponentStars)}</div>
-          <div className={`opponent-avatar ${isAnimating ? `waiting` : ``} `}>
-            <img src={opponentAvatar} alt="" />
-          </div>
-        </div>
-      </div>
-
-      <div className="hands-container">
-        <div className={`player ${isAnimating ? `animate` : ``}`}>
-          <img src={assets[playerSelection]} alt="" />
-        </div>
-        {showResult && (
-          <div className="result-indicator">
-            <img src={assets[showResult]} alt="" />
-          </div>
-        )}
-        <div className={`opponent ${isAnimating ? `animate` : ``}`}>
-          <img src={assets[opponentSelection]} alt="" />
-        </div>
-      </div>
-
-      <div className="selection-container">
-        <div className="buttons-container">
-          <div className="rock-button">
-            <img
-              onClick={() => handleAnimation("rock")}
-              src={rockButton}
-              alt=""
-            />
-          </div>
-          <div className="paper-button">
-            <img
-              onClick={() => handleAnimation("paper")}
-              src={paperButton}
-              alt=""
-            />
-          </div>
-          <div className="scissor-button">
-            <img
-              onClick={() => handleAnimation("scissor")}
-              src={scissorButton}
-              alt=""
-            />
-          </div>
-        </div>
-      </div>
-      {showWinnerDisplay && (
-        <div className="winner-board-bg">
-          <div className="winner-board">
-            <div className="result-display">
-              <img src={assets[showWinnerDisplay]} alt="" />
-            </div>
-            <div className="buttons-display">
-              <div className="back-btn">
-                <img src={backBtn} onClick={() => reloadPage()} alt="" />
+      ) : (
+        <div className="gameboard-container">
+          <div className="score-card">
+            <div className="player-details">
+              <div className="player-avatar">
+                <img src={playerAvatar} alt="" />
               </div>
-              <div className="play-again-btn">
+              <div className="player-stars">{displayStars(playerStars)}</div>
+            </div>
+
+            <div className="opponent-details">
+              <div className="opponent-stars">
+                {displayStars(opponentStars)}
+              </div>
+              <div
+                className={`opponent-avatar ${isAnimating ? `waiting` : ``} `}
+              >
+                <img src={opponentAvatar} alt="" />
+              </div>
+            </div>
+          </div>
+          <div className="hands-container">
+            <div className={`player ${isAnimating ? `animate` : ``}`}>
+              <img src={assets[playerSelection]} alt="" />
+            </div>
+            {showResult && (
+              <div className="result-indicator">
+                <img src={assets[showResult]} alt="" />
+              </div>
+            )}
+            <div className={`opponent ${isAnimating ? `animate` : ``}`}>
+              <img src={assets[opponentSelection]} alt="" />
+            </div>
+          </div>
+          <div className="selection-container">
+            <div className="buttons-container">
+              <div className="rock-button">
                 <img
-                  src={playAgainBtn}
-                  onClick={() => handlePlayAgain()}
+                  onClick={() => handleAnimation("rock")}
+                  src={rockButton}
                   alt=""
                 />
               </div>
-              <div className="new-game-btn">
-                <img src={newGameBtn} onClick={() => handleNewGame()} alt="" />
+              <div className="paper-button">
+                <img
+                  onClick={() => handleAnimation("paper")}
+                  src={paperButton}
+                  alt=""
+                />
+              </div>
+              <div className="scissor-button">
+                <img
+                  onClick={() => handleAnimation("scissor")}
+                  src={scissorButton}
+                  alt=""
+                />
               </div>
             </div>
           </div>
+          {showWinnerDisplay && (
+            <div className="winner-board-bg">
+              <div className="winner-board">
+                <div className="result-display">
+                  <img src={assets[showWinnerDisplay]} alt="" />
+                </div>
+                <div className="buttons-display">
+                  <div className="back-btn">
+                    <img src={backBtn} onClick={() => reloadPage()} alt="" />
+                  </div>
+                  <div className="play-again-btn">
+                    <img
+                      src={playAgainBtn}
+                      onClick={() => handlePlayAgain()}
+                      alt=""
+                    />
+                  </div>
+                  <div className="new-game-btn">
+                    <img
+                      src={newGameBtn}
+                      onClick={() => handleNewGame()}
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       )}
-    </div>
+    </>
   );
 }
 export default GameBoard;

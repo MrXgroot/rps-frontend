@@ -4,7 +4,8 @@ import randomButton from "../assets/RandomButton.png";
 import joinButton from "../assets/joinButton.png";
 import createButton from "../assets/createButton.png";
 import computerButton from "../assets/computerButton.png";
-import { useEffect } from "react";
+import { preloadImages } from "../../utils/util";
+import { useEffect, useState } from "react";
 function StartPage({
   socket,
   setIsGameStarted,
@@ -12,7 +13,23 @@ function StartPage({
   setIsConnected,
   setPlayOffline,
 }) {
+  const imageSources = [
+    paper,
+    randomButton,
+    joinButton,
+    createButton,
+    computerButton,
+  ];
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
+    preloadImages(imageSources)
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+      });
+
     socket.on("connect", () => {
       console.log("connected");
       setIsConnected(true);
@@ -56,54 +73,63 @@ function StartPage({
 
   return (
     <>
-      <div className="page-container">
-        {!isConnected && (
-          <div className="connecting-container">
-            <div className="spinner-container">
-              <div className="spinner"></div>
+      {isLoading ? (
+        <div className="loading-screen-container">
+          <div className="outer-spinner">
+            <div className="inner-spinner"></div>
+          </div>
+          <p className="loading-text">Loading Assets...</p>
+        </div>
+      ) : (
+        <div className="page-container">
+          {!isConnected && (
+            <div className="connecting-container">
+              <div className="spinner-container">
+                <div className="spinner"></div>
+              </div>
+              <p>connecting...</p>
             </div>
-            <p>connecting...</p>
+          )}
+          <div className="paper-container">
+            <img src={paper} alt="" />
           </div>
-        )}
-        <div className="paper-container">
-          <img src={paper} alt="" />
+          <div className="game-title">
+            <h1>Rock Paper Scissors</h1>
+          </div>
+          <div className="all-buttons">
+            <div
+              onClick={() => handleCreate()}
+              className={`create-btn ${
+                isConnected ? `btn-active` : `btn-disabled`
+              }`}
+            >
+              <img src={createButton} alt="" />
+            </div>
+            <div
+              onClick={() => handleJoin()}
+              className={`join-btn ${
+                isConnected ? `btn-active` : `btn-disabled`
+              }`}
+            >
+              <img src={joinButton} alt="" />
+            </div>
+            <div
+              onClick={() => handleRandom()}
+              className={`random-btn ${
+                isConnected ? `btn-active` : `btn-disabled`
+              }`}
+            >
+              <img src={randomButton} alt="" />
+            </div>
+            <div
+              onClick={() => handleComputer()}
+              className="computer-btn btn-active"
+            >
+              <img src={computerButton} alt="" />
+            </div>
+          </div>
         </div>
-        <div className="game-title">
-          <h1>Rock Paper Scissors</h1>
-        </div>
-        <div className="all-buttons">
-          <div
-            onClick={() => handleCreate()}
-            className={`create-btn ${
-              isConnected ? `btn-active` : `btn-disabled`
-            }`}
-          >
-            <img src={createButton} alt="" />
-          </div>
-          <div
-            onClick={() => handleJoin()}
-            className={`join-btn ${
-              isConnected ? `btn-active` : `btn-disabled`
-            }`}
-          >
-            <img src={joinButton} alt="" />
-          </div>
-          <div
-            onClick={() => handleRandom()}
-            className={`random-btn ${
-              isConnected ? `btn-active` : `btn-disabled`
-            }`}
-          >
-            <img src={randomButton} alt="" />
-          </div>
-          <div
-            onClick={() => handleComputer()}
-            className="computer-btn btn-active"
-          >
-            <img src={computerButton} alt="" />
-          </div>
-        </div>
-      </div>
+      )}
     </>
   );
 }
