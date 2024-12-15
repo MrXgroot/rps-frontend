@@ -87,6 +87,9 @@
   }
 }
 @media (max-width: 385px) {
+  .header {
+    display: none;
+  }
   .player-stars img {
     width: 20px;
     height: 20px;
