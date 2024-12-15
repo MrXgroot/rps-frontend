@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import StartPage from "./Components/startPage";
+import StartPage from "./Components/startPage.jsx";
 import "./App.css";
 import GameBoard from "./Components/GameBoard.jsx";
 import { io } from "socket.io-client";
