@@ -11,3 +11,7 @@ button {
   box-shadow: 1px 1px 8px black;
   background-image: radial-gradient(rgb(207, 40, 149), rgb(132, 14, 134));
 }
+img {
+  user-select: none;
+  outline: none;
+}

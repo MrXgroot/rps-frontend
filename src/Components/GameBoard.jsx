@@ -18,6 +18,7 @@ import loseIndicator from "../assets/loseIndicator.png";
 import tieIndicator from "../assets/tieIndicator.png";
 import { useState, useRef, useEffect } from "react";
 import RpsEngine from "../../engine/RpsEngine";
+import background from "../assets/background.png";
 import { preloadImages } from "../../utils/util.js";
 
 function GameBoard({ socket, playOffline }) {
@@ -56,6 +57,7 @@ function GameBoard({ socket, playOffline }) {
     winIndicator,
     loseIndicator,
     tieIndicator,
+    background,
   ];
 
   const [isAnimating, setIsAnimating] = useState(false);
@@ -169,6 +171,10 @@ function GameBoard({ socket, playOffline }) {
         </div>
       ) : (
         <div className="gameboard-container">
+          <div className="bg-image">
+            <img src={background} alt="" />
+          </div>
+
           <div className="score-card">
             <div className="player-details">
               <div className="player-avatar">

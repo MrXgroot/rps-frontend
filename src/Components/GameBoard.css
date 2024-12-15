@@ -9,11 +9,15 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background-size: cover;
-  background-position: center;
-  background-image: url("../assets/background.png");
 }
-
+.gameboard-container .bg-image {
+  position: absolute;
+  height: 100%;
+  display: flex;
+}
+.bg-image img {
+  object-fit: cover;
+}
 .hands-container {
   width: 100%;
   display: flex;
